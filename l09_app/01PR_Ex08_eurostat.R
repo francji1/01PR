@@ -1,26 +1,15 @@
-list_of_packages <- c("tidyverse", "leaflet", "sf", "units", "scales", "cowplot", "ggthemes", "eurostat") 
-missing_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]
-missing_packages
-if(length(missing_packages)) install.packages(missing_packages)
-lapply(list_of_packages, library, character.only = TRUE)
-
-
-install.packages("Rcpp")
-install.packages("units")
-
-install.packages("sf")
-
-
+#list_of_packages <- c("tidyverse", "leaflet", "sf", "units", "scales", "cowplot", "ggthemes", "eurostat") 
+#missing_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]
+#missing_packages
+#if(length(missing_packages)) install.packages(missing_packages)
+#lapply(list_of_packages, library, character.only = TRUE)
 
 
 library(tidyverse)
 library(Rcpp)
-
 library(sf)
-
 library(scales)
 library(leaflet)
-
 library(cowplot)
 library(ggthemes)
 library(eurostat)
@@ -31,14 +20,13 @@ library(eurostat)
 # Get Eurostat data listing
 toc <- get_eurostat_toc()
 
-# Check the first items
-library(knitr)
-kable(tail(toc))
 
 toc[toc$title == "Life expectancy by age, sex and NUTS 2 region",]$code
 
 df <- get_eurostat("demo_r_mlifexp", time_format = "num")
 df
+
+table(df$sex)
 
 unique(df$geo)
 
@@ -46,6 +34,9 @@ table(df$age)
 
 cz_names = df$geo[startsWith(df$geo,"CZ")] %>% unique()
 
+str_sub(df$geo, end = 2) %>% unique()
+
+c(2000:2022)
 
 df_cz <- df %>% 
   filter(age == "Y_LT1",
@@ -74,10 +65,9 @@ SHP_0 <- get_eurostat_geospatial(resolution = 10,
 
 SHP_europe <- SHP_0 %>% 
  # select(geo = NUTS_ID, geometry) %>% 
-#  inner_join(EU27, by = "geo") %>% 
+ # inner_join(EU27, by = "geo") %>% 
   arrange(geo) %>% 
-  st_as_sf()
-
+  st_as_sf() 
 
 SHP_europe %>% 
   ggplot() +
@@ -90,6 +80,33 @@ SHP_europe %>%
   scale_x_continuous(limits = c(-10, 35)) +
   scale_y_continuous(limits = c(35, 65)) +
   theme_void()
+
+
+df_country <- df %>% 
+  filter(age == "Y_LT1",
+         geo %in% cz_names,
+         sex %in% c("T"),
+         time %in% c(2000:2020)) %>% 
+  group_by(geo) %>% 
+  summarise(mean_value = mean(values))
+
+df_country
+
+table(df_country$time)
+
+
+get_eurostat_geospatial(resolution = 10, 
+                          nuts_level = 2, 
+                          year = 2016) %>% 
+  arrange(geo) %>% 
+  st_as_sf() %>% 
+  ggplot() +
+  geom_sf() +
+  scale_x_continuous(limits = c(-10, 35)) +
+  scale_y_continuous(limits = c(35, 65)) +
+  theme_void()
+
+
 
 df_eu
 
