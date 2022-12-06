@@ -1,0 +1,60 @@
+---
+title: "Zadani zapoctove ulohy z 01PR"
+author: "Name1, Name2, NAme3"
+date: '2022-12-06'
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Zadání
+
+Vytvořte interaktivni Shiny aplikaci, která bude napojena na data z Eurostatu a bude reagovat na změny parametrů a podle toho vykreslovat příslušné grafy.
+Inspirace na https://ec.europa.eu/eurostat/cache/recovery-dashboard/
+
+```{r pressure, echo=FALSE, include=FALSE}
+library(tidyverse)
+library(Rcpp)
+library(sf)
+library(scales)
+library(leaflet)
+library(cowplot)
+library(ggthemes)
+library(eurostat)
+```
+
+### Data
+
+Použijte následující datové zdroje a knihovnu \texttt{eurostat}:
+
+* Unemployment by sex and age – monthly:  data code: UNE_RT_M
+* GDP and main components (output, expenditure and income) - quarterly: data code: NAMQ_10_GDP 
+* Business registration and bankruptcy index by NACE Rev.2 activity - quarterly: data code: STS_RB_Q 
+
+### Popis úkolů.
+
+* Stáhněte data a ta s měsíční frekvencí převeďte na čtvrtletní.
+* Vytvorte vpravo ridici panel, kde budete moci zadavat obecne pro vsechny 3 grafy:
+
+  * Vyber zeme
+  * Vyber casoveho obdobi po ctvrtletich
+  * Vyber hlavni promenne ktera se zobrazi ve vsech grafech
+  * Pro graf cislo 1: Prepinatko mezi prumernou nezamestnanosti a mezikvartalni zmenou nezamestnanosti
+  * Pro graf cislo 2: Soupatko pro timeshift (posunuti po ctvrtletich v nezamestnanosti pro vypocet korelace mezi nezamestnanosti a dalsima dvema promennyma) a vyber druhe promenne k prvni hlavni pro vykresleni  scatterplotu.
+  * Pro graf cislo 3: Prepinatko mezi prumerem za vybrane casove obdobi a mezi zmenou od zacatku do konce casoveho obdobi.
+
+### Detailni popis jednotlivych grafu
+
+* Graf cislo 1:
+  * Lomena cara vykreslujici vybrane datove body, kde barva odlisuje jednotlive zeme a typ cary odlisuje  pohlavi.
+* Graf cislo 2:
+  * Scatterplot, kde barva tecek a prolozene regresni primky odlisuje zeme.
+  * Pod grafem bude vypis hodnot korelace pro jednotlive zeme.
+* Graf cislo 3:
+  * Mapa s barevnym odlisenim podle honoty zkoumane promenne, ktera bude za zoomovana podle toho jake zeme budou vybrany.
+  
+  

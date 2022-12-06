@@ -1,0 +1,164 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Zadani zapoctove ulohy z 01PR},
+  pdfauthor={Name1, Name2, NAme3},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Zadani zapoctove ulohy z 01PR}
+\author{Name1, Name2, NAme3}
+\date{2022-12-06}
+
+\begin{document}
+\maketitle
+
+\hypertarget{zaduxe1nuxed}{%
+\subsection{Zadání}\label{zaduxe1nuxed}}
+
+Vytvořte interaktivni Shiny aplikaci, která bude napojena na data z
+Eurostatu a bude reagovat na změny parametrů a podle toho vykreslovat
+příslušné grafy. Inspirace na
+\url{https://ec.europa.eu/eurostat/cache/recovery-dashboard/}
+
+\hypertarget{data}{%
+\subsubsection{Data}\label{data}}
+
+Použijte následující datové zdroje a knihovnu \texttt{eurostat}:
+
+\begin{itemize}
+\tightlist
+\item
+  Unemployment by sex and age -- monthly: data code: UNE\_RT\_M
+\item
+  GDP and main components (output, expenditure and income) - quarterly:
+  data code: NAMQ\_10\_GDP
+\item
+  Business registration and bankruptcy index by NACE Rev.2 activity -
+  quarterly: data code: STS\_RB\_Q
+\end{itemize}
+
+\hypertarget{popis-uxfakolux16f.}{%
+\subsubsection{Popis úkolů.}\label{popis-uxfakolux16f.}}
+
+\begin{itemize}
+\item
+  Stáhněte data a ta s měsíční frekvencí převeďte na čtvrtletní.
+\item
+  Vytvorte vpravo ridici panel, kde budete moci zadavat obecne pro
+  vsechny 3 grafy:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Vyber zeme
+  \item
+    Vyber casoveho obdobi po ctvrtletich
+  \item
+    Vyber hlavni promenne ktera se zobrazi ve vsech grafech
+  \item
+    Pro graf cislo 1: Prepinatko mezi prumernou nezamestnanosti a
+    mezikvartalni zmenou nezamestnanosti
+  \item
+    Pro graf cislo 2: Soupatko pro timeshift (posunuti po ctvrtletich v
+    nezamestnanosti pro vypocet korelace mezi nezamestnanosti a dalsima
+    dvema promennyma) a vyber druhe promenne k prvni hlavni pro
+    vykresleni scatterplotu.
+  \item
+    Pro graf cislo 3: Prepinatko mezi prumerem za vybrane casove obdobi
+    a mezi zmenou od zacatku do konce casoveho obdobi.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{detailni-popis-jednotlivych-grafu}{%
+\subsubsection{Detailni popis jednotlivych
+grafu}\label{detailni-popis-jednotlivych-grafu}}
+
+\begin{itemize}
+\tightlist
+\item
+  Graf cislo 1:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Lomena cara vykreslujici vybrane datove body, kde barva odlisuje
+    jednotlive zeme a typ cary odlisuje pohlavi.
+  \end{itemize}
+\item
+  Graf cislo 2:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Scatterplot, kde barva tecek a prolozene regresni primky odlisuje
+    zeme.
+  \item
+    Pod grafem bude vypis hodnot korelace pro jednotlive zeme.
+  \end{itemize}
+\item
+  Graf cislo 3:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Mapa s barevnym odlisenim podle honoty zkoumane promenne, ktera bude
+    za zoomovana podle toho jake zeme budou vybrany.
+  \end{itemize}
+\end{itemize}
+
+\end{document}
